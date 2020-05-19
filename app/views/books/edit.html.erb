@@ -3,17 +3,29 @@
 
   <div class="letter">
     <%= form_for(@book) do |f| %>
-      <div class="edit-book">
-        <h4 class="edit-heading">title</h4>
-        <div class="edit-title"><%= f.text_field :title %></div>
-      </div>
-      <div class="edit-book">
-        <h4 class="edit-heading">body</h4>
-        <div class="edit-body"><%= f.text_area :body %></div>
-      </div>
-      <div class="edit-book">
-        <%= f.submit 'Update Book' %>
-      </div>
+      <% if @book.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <h2><%= pluralize(@book.errors.count, "error") %> prohibited this product from being saved:</h2>
+          <ul>
+            <% @book.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+        <div class="edit-book">
+          <h4 class="edit-heading">title</h4>
+          <div class="edit-title"><%= f.text_field :title %></div>
+          
+        </div>
+        <div class="edit-book">
+          <h4 class="edit-heading">body</h4>
+          <div class="edit-body"><%= f.text_area :body %></div>
+
+        </div>
+        <div class="edit-book">
+          <%= f.submit 'Update Book' %>
+        </div>
     <% end %>
     <%= link_to 'Show', book_path(@book) %>
     <span>|</span>
