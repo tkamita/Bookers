@@ -22,23 +22,30 @@ class BooksController < ApplicationController
     end
   end
 
-  def new
-  	@book = Book.new
-  end
+  # def new
+  # 	@book = Book.new
+  # end
 
   def create
-    book = Book.new(book_params)
-    if book.errors.any?
-      redirect_to books_path
-      # render action: :index
+    @book = Book.new(book_params)
+    if @book.save
+      redirect_to book_path(@book.id), notice: 'successfully created'
     else
-      # book = Book.find(book_params)
-      # book.destroy
-      if book.save
-        redirect_to book_path(book.id), notice: 'successfully created'
-      end
-      
+      @books = Book.all.order(created_at: :desc)
+      render 'index'
     end
+    # book = Book.new(book_params)
+    # if book.errors.any?
+    #   redirect_to books_path
+    #   # render action: :index
+    # else
+    #   # book = Book.find(book_params)
+    #   # book.destroy
+    #   if book.save
+    #     redirect_to book_path(book.id), notice: 'successfully created'
+    #   end
+      
+    # end
   end
 
   def destroy
